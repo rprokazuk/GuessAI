@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUESS AI - Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>GUESS AI</h1>
+        <div id="timer">02:00</div>
+    </header>
+    <main>
+        <div id="messages">
+            <div class="message-box">
+                <p>Система: Привіт! Чи готовий ти почати гру?</p>
+            </div>
+        </div>
+        <footer>
+            <input type="text" id="userInput" placeholder="Write here..." required>
+            <button onclick="sendMessage()">Send</button>
+        </footer>
+    </main>
+    <script>
+        // Timer Logic
+        let timeLeft = 120; // 2 minutes in seconds
+        const timerElement = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60); // Calculate minutes
+            const seconds = timeLeft % 60;            // Calculate seconds
+
+            // Update Timer Display
+            timerElement.textContent = `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+            // Redirect to Results Page when time is up
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = "results.html";
+            }
+
+            timeLeft--; // Decrease time
+        }, 1000); // Run every second
+
+        // Message Handling
+        function sendMessage() {
+            const input = document.getElementById("userInput");
+            const message = input.value.trim();
+            const messageContainer = document.getElementById("messages");
+
+            if (message) {
+                const messageBox = document.createElement("div");
+                messageBox.className = "message-box";
+                messageBox.innerHTML = <p>User: ${message}</p>;
+                messageContainer.appendChild(messageBox);
+
+                input.value = ""; // Clear input field
+            }
+        }
+    </script>
+</body>
+</html>
